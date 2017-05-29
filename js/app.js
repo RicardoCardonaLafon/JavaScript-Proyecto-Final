@@ -1,88 +1,121 @@
 var cantidad_digitos = 0;
-var resultado_parcial = 0;
-var numero_antes_igual=0;
-var nro_veces_igual=0;
-var no_sumar = false;
-var ultimo_operando = 0;
+var resultado = 0;
 var punto_decimal = false;
 var puso_signo_menos = false;
-var operador_suma = false;
-var operador_resta = false;
-var operador_produto = false;
-var operador_division = false;
-var ultimo_operador = "";
-var operador_antes_igual = "";
+var cuenta = [];
+var n = "";
+
  
 //var entero = parseInt(text); // entero = 1234
 //var decimal = parseFloat(text); // decimal = 1234.0987
     
 document.getElementById("mas").addEventListener("click", function () {
-    ultimo_operador = "+";
     cantidad_digitos = 0;
-    nro_veces_igual = 0;
-    //cargo operando1
-    if (resultado_parcial == 0 && document.getElementById("display").innerHTML !=0) {
-       resultado_parcial = parseFloat(document.getElementById("display").innerHTML); 
-       document.getElementById("display").innerHTML = "0";        
-    //cargo operando2    
-    } else {
-        if (resultado_parcial != 0 && document.getElementById("display").innerHTML != "0"){
-            //Hago cuenta
-            resultado_parcial = resultado_parcial + parseFloat(document.getElementById("display").innerHTML);   
-            document.getElementById("display").innerHTML = "0";
-            
-        }
-    }
-    
+    n = document.getElementById("display").innerHTML;
+    cuenta.push(n, "+");
+    document.getElementById("display").innerHTML = "0";
+});
+document.getElementById("menos").addEventListener("click", function () {
+    cantidad_digitos = 0;
+    n = document.getElementById("display").innerHTML;
+    cuenta.push(n, "-");
+    document.getElementById("display").innerHTML = "0";
+});
+document.getElementById("por").addEventListener("click", function () {
+    cantidad_digitos = 0;
+    n = document.getElementById("display").innerHTML;
+    cuenta.push(n, "*");
+    document.getElementById("display").innerHTML = "0";
+});
+document.getElementById("dividido").addEventListener("click", function () {
+    cantidad_digitos = 0;
+    n = document.getElementById("display").innerHTML
+    cuenta.push(n, "/");
+    document.getElementById("display").innerHTML = "0";
 });
 
 document.getElementById("igual").addEventListener("click", function () {
-        
-        if (nro_veces_igual == 0) {
-            numero_antes_igual = parseFloat(document.getElementById("display").innerHTML);
-            nro_veces_igual = 1;
-        } else {
-            nro_veces_igual = nro_veces_igual + 1;
-        }
-        switch (ultimo_operador){
-            case "+":
-                if (no_sumar) {
-                    if (nro_veces_igual == 1) {
-                        resultado_parcial = resultado_parcial + parseFloat(document.getElementById("display").innerHTML);
-                        sumo_signo_mas=true;
-                    } else {
-                        resultado_parcial = resultado_parcial + numero_antes_igual;
-                        sumo_signo_igual=true;
+    operador1 = 0;
+    operador2 = 0;
+    operacion = "";
+    resultado = 0;
+    n = document.getElementById("display").innerHTML;
+    cuenta.push(n, "=");
+    alert("La operación es: " + cuenta[0] + cuenta[1] + cuenta[2] + cuenta[3]);
+    if (cuenta.length > 3) {
+        //Recorro el resto y coloco los resultados
+        for (var i = 0; i < cuenta.length-1; i++) {
+            //Es un operador
+            if (typeof(cuenta[i]) == 'string') {
+                // Es un operador
+                switch (cuenta[i]) {
+                    case "+":
+                        operacion = "+";
+                        break;
+                    case "-":
+                        operacion = "-";
+                        break;
+                    case "*":
+                        operacion = "*";
+                        break;
+                    case "/":
+                        operacion = "/";
+                        break;
+                }
+            }  
+            
+            // Es un número
+            if (typeof(parseFloat(cuenta[i])) == 'number') { 
+               
+                if (operador1 == 0 && operador2 == 0) {
+                    operador1 = parseFloat(cuenta[i]);
+                    operador2 = 0; 
+                     alert("Cargo Operador1 = " + operador1 + " Posición: " + i);
+                } else {
+                        operador2 = parseFloat(cuenta[i]);
+                        alert("Cargo Operador2 = " + operador2 + " Posición: " + i);
                     }
                 }
-                break;
-            case "-":    
-                if (nro_veces_igual == 1){
-                    resultado_parcial = resultado_parcial - parseFloat(document.getElementById("display").innerHTML);
-                } else {
-                    resultado_parcial = resultado_parcial - numero_antes_igual;
+                
+                if (operador1 > 0 && operador2 > 0) {
+                    // Hago cuenta parcial
+                    switch (operacion){
+                        case "+":
+                            resultado = operador1 + operador2;
+                            cuenta.push(resultado);
+                            break;
+                        case "-":
+                            resultado = operador1 - operador2;
+                            cuenta.push(resultado);
+                            break;
+                        case "*":
+                            resultado = operador1 * operador2;
+                            cuenta.push(resultado);
+                            break;
+                        case "/":
+                            resultado = operador1 / operador2;
+                            cuenta.push(resultado);
+                            break;
+                        case "=":    
+
+                    }
+                    
                 }
-                break;
-            case "*":    
-                if (nro_veces_igual == 1){
-                    resultado_parcial = resultado_parcial * parseFloat(document.getElementById("display").innerHTML);
-                } else {
-                    resultado_parcial = resultado_parcial * numero_antes_igual;
-                }
-                break;
-            case "/":    
-                if (nro_veces_igual == 1){
-                    resultado_parcial = resultado_parcial / parseFloat(document.getElementById("display").innerHTML);
-                } else {
-                    resultado_parcial = resultado_parcial / numero_antes_igual;
-                }
-                break;    
-             
-            } 
-        document.getElementById("display").innerHTML = resultado_parcial;
-        punto_decimal = false;
+        }
+                        
+                    
+    }
         
+    
+    alert("Resultado: " + resultado + " - Cuenta: " + cuenta[0] + cuenta[1] + cuenta[2] + cuenta[3]);
+    document.getElementById("display").innerHTML = resultado;
+    punto_decimal = false;     
+                                           
 });
+
+
+    
+        
 
 document.getElementById("sign").addEventListener("click", function () {   
     sin_signo = "";    
@@ -110,6 +143,8 @@ document.getElementById("on").addEventListener("click", function () {
     punto_decimal = false;
     ultimo_operador = "";
     resultado_parcial=0;
+    cuenta_realizada = false;
+    primera_entrada = false;
 });
 
 document.getElementById("0").addEventListener("click", function () {
