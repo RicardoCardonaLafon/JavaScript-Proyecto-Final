@@ -8,8 +8,38 @@ var operadores = 1;
 var hay_resultado = false;
 var ultimo_operador = "";
 var ultimo_operando = 0;
+var tecla_0 = document.getElementById('0');
+var tecla_1 = document.getElementById('1');
+var tecla_2 = document.getElementById('2');
+var tecla_3 = document.getElementById('3');
+var tecla_4 = document.getElementById('4');
+var tecla_5 = document.getElementById('5');
+var tecla_6 = document.getElementById('6');
+var tecla_7 = document.getElementById('7');
+var tecla_8 = document.getElementById('8');
+var tecla_9 = document.getElementById('9');
+var tecla_mas = document.getElementById('mas');
+var tecla_menos = document.getElementById('menos');
+var tecla_por = document.getElementById('por');
+var tecla_dividido = document.getElementById('dividido');
+var tecla_igual = document.getElementById('igual');
+var tecla_punto = document.getElementById('punto');
+var tecla_sign = document.getElementById('sign');
+var tecla_on = document.getElementById('on');
+var tecla_actual = "";
 
 
+// Reducir y ampliar teclas
+
+//tecla_1.addEventListener('click', function(){
+//    tecla_1.style="border-style:groove";
+//    setInterval(function(){
+//        tecla_1.style="";
+//    },300);
+//}); 
+
+
+//Fin efectos tecla       
 function representacion_visor(nro){
     resultado_txt = resultado;
     resultado_txt = resultado_txt.toString();
@@ -95,7 +125,11 @@ function calcular_resultado(){
         cuenta[1] = op; 
     }
     document.getElementById("display").innerHTML = resultado;
-    punto_decimal = false;     
+    if (resultado == parseInt(resultado)) {
+        punto_decimal = false;     
+    } else {
+        punto_decimal = true;     
+    }   
     operadores = 1;
     hay_resultado = true;
     return resultado;
@@ -103,8 +137,15 @@ function calcular_resultado(){
     
 }
 //Fin de la funcion
-    
-document.getElementById("mas").addEventListener("click", function () {
+//document.getElementsByClassName("tecla");.addEventListener("click"){ this.style.width="90%";
+   
+//     this.background = "red";
+// };
+tecla_mas.addEventListener("click", function () {
+    tecla_mas.style="border-style:groove";
+    setInterval(function(){
+        tecla_mas.style="";
+    },300);
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
         cuenta[5] = "";
@@ -119,8 +160,7 @@ document.getElementById("mas").addEventListener("click", function () {
                 cuenta[2] = s;
                 cuenta[1] = "+"; 
                 cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();
-                punto_decimal = false;     
+                document.getElementById("display").innerHTML = calcular_resultado();    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
@@ -142,7 +182,11 @@ document.getElementById("mas").addEventListener("click", function () {
     }
       
 });
-document.getElementById("menos").addEventListener("click", function () {
+tecla_menos.addEventListener("click", function () {
+    tecla_menos.style="border-style:groove";
+    setInterval(function(){
+        tecla_menos.style="";
+    },300);
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
         cuenta[5] = "";
@@ -157,8 +201,7 @@ document.getElementById("menos").addEventListener("click", function () {
                 cuenta[2] = s;
                 cuenta[1] = "-"; 
                 cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();
-                punto_decimal = false;     
+                document.getElementById("display").innerHTML = calcular_resultado();    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
@@ -179,8 +222,12 @@ document.getElementById("menos").addEventListener("click", function () {
         
     }
 });
-document.getElementById("por").addEventListener("click", function () {
-   if (document.getElementById("display").innerHTML != "0"){
+tecla_por.addEventListener("click", function () {
+    tecla_por.style="border-style:groove";
+    setInterval(function(){
+        tecla_por.style="";
+    },300);
+    if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
         cuenta[5] = "";
         cuenta[6] = "";
@@ -194,8 +241,7 @@ document.getElementById("por").addEventListener("click", function () {
                 cuenta[2] = s;
                 cuenta[1] = "*"; 
                 cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();
-                punto_decimal = false;     
+                document.getElementById("display").innerHTML = calcular_resultado();   
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
@@ -216,7 +262,11 @@ document.getElementById("por").addEventListener("click", function () {
         
     }
 });
-document.getElementById("dividido").addEventListener("click", function () {
+tecla_dividido.addEventListener("click", function () {
+    tecla_dividido.style="border-style:groove";
+    setInterval(function(){
+        tecla_dividido.style="";
+    },300);
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
         cuenta[5] = "";
@@ -231,8 +281,7 @@ document.getElementById("dividido").addEventListener("click", function () {
                 cuenta[2] = s;
                 cuenta[1] = "/"; 
                 cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();
-                punto_decimal = false;     
+                document.getElementById("display").innerHTML = calcular_resultado();  
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
@@ -254,7 +303,11 @@ document.getElementById("dividido").addEventListener("click", function () {
     }
 });
 
-document.getElementById("igual").addEventListener("click", function () { 
+tecla_igual.addEventListener("click", function () { 
+    tecla_igual.style="border-style:groove";
+    setInterval(function(){
+        tecla_igual.style="";
+    },300);
     if (document.getElementById("display").innerHTML != "0") {
         n = document.getElementById("display").innerHTML;
         resultado_txt = "";
@@ -264,16 +317,14 @@ document.getElementById("igual").addEventListener("click", function () {
                     case "+":
                         cuenta[2] = parseFloat(n);
                         cuenta[3] = "=";
-                        document.getElementById("display").innerHTML = calcular_resultado();
-                        punto_decimal = false;     
+                        document.getElementById("display").innerHTML = calcular_resultado();   
                         operadores = 1;
                         hay_resultado = true;
                         break;
                     case "-":
                         cuenta[2] = parseFloat(n);
                         cuenta[3] = "=";
-                        document.getElementById("display").innerHTML = calcular_resultado();
-                        punto_decimal = false;     
+                        document.getElementById("display").innerHTML = calcular_resultado();    
                         operadores = 1;
                         hay_resultado = true;
                         break;
@@ -281,7 +332,6 @@ document.getElementById("igual").addEventListener("click", function () {
                         cuenta[2] = parseFloat(n);
                         cuenta[3] = "=";
                         document.getElementById("display").innerHTML = calcular_resultado();
-                        punto_decimal = false;     
                         operadores = 1;
                         hay_resultado = true;
                         break;
@@ -289,8 +339,7 @@ document.getElementById("igual").addEventListener("click", function () {
                         if (parseFloat(n) != 0){
                             cuenta[2] = parseFloat(n);
                             cuenta[3] = "=";
-                            document.getElementById("display").innerHTML = calcular_resultado();
-                            punto_decimal = false;     
+                            document.getElementById("display").innerHTML = calcular_resultado();   
                             operadores = 1;
                             hay_resultado = true;
                         }    
@@ -322,23 +371,24 @@ document.getElementById("igual").addEventListener("click", function () {
                 cuenta[3] = "=";
                 cuenta[4] = "x";
                 document.getElementById("display").innerHTML = resultado;
-                punto_decimal = false;     
+                if (resultado == parseInt(resultado)) {
+                    punto_decimal = false;     
+                } else {
+                    punto_decimal = true;     
+                }       
                 operadores = 1;
                 hay_resultado = true;
             }
              
-        }
-       
-        
-        
+        }        
     }
 });
 
-
-    
-        
-
-document.getElementById("sign").addEventListener("click", function () {   
+tecla_sign.addEventListener("click", function () {   
+    tecla_sign.style="border-style:groove";
+    setInterval(function(){
+        tecla_sign.style="";
+    },300);
     sin_signo = "";    
     if (document.getElementById("display").innerHTML != "0"){
         if (document.getElementById("display").innerHTML[0] != "-" ){
@@ -351,14 +401,22 @@ document.getElementById("sign").addEventListener("click", function () {
    }
 });
 
-document.getElementById("punto").addEventListener("click", function () {
-   if (!punto_decimal){
-    punto_decimal = true;
-    document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "."; 
+tecla_punto.addEventListener("click", function () {
+    tecla_punto.style="border-style:groove";
+    setInterval(function(){
+        tecla_punto.style="";
+    },300);    
+    if (!punto_decimal){
+        punto_decimal = true;
+        document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "."; 
     }
 });
 
-document.getElementById("on").addEventListener("click", function () {
+tecla_on.addEventListener("click", function () {
+    tecla_on.style="border-style:groove";
+    setInterval(function(){
+        tecla_on.style="";
+    },300);
     document.getElementById("display").innerHTML = "0";
     cantidad_digitos = 0;
     punto_decimal = false;
@@ -375,14 +433,23 @@ document.getElementById("on").addEventListener("click", function () {
     hay_resultado = false;
 });
 
-document.getElementById("0").addEventListener("click", function () {
+tecla_0.addEventListener("click", function () {
+    tecla_0.style="border-style:groove";
+    setInterval(function(){
+        tecla_0.style="";
+    },300);
     if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
         document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "0";
         cuenta[4] = "";
         cantidad_digitos = cantidad_digitos + 1;
     }    
 });
-document.getElementById("1").addEventListener("click", function () {
+tecla_1.addEventListener("click", function () {
+    tecla_1.style="border-style:groove";
+    setInterval(function(){
+        tecla_1.style="";
+    },300);
+    
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "1";
         cantidad_digitos = cantidad_digitos + 1;
@@ -396,7 +463,11 @@ document.getElementById("1").addEventListener("click", function () {
         
     }    
 });
-document.getElementById("2").addEventListener("click", function () {
+tecla_2.addEventListener("click", function () {
+    tecla_2.style="border-style:groove";
+    setInterval(function(){
+        tecla_2.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "2";
         cantidad_digitos = cantidad_digitos + 1;
@@ -409,7 +480,11 @@ document.getElementById("2").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("3").addEventListener("click", function () {
+tecla_3.addEventListener("click", function () {
+    tecla_3.style="border-style:groove";
+    setInterval(function(){
+        tecla_3.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "3";
         cantidad_digitos = cantidad_digitos + 1;
@@ -423,7 +498,11 @@ document.getElementById("3").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("4").addEventListener("click", function () {
+tecla_4.addEventListener("click", function () {
+    tecla_4.style="border-style:groove";
+    setInterval(function(){
+        tecla_4.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "4";
         cantidad_digitos = cantidad_digitos + 1;
@@ -436,7 +515,11 @@ document.getElementById("4").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("5").addEventListener("click", function () {
+tecla_5.addEventListener("click", function () {
+    tecla_5.style="border-style:groove";
+    setInterval(function(){
+        tecla_5.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "5";
         cantidad_digitos = cantidad_digitos + 1;
@@ -449,7 +532,11 @@ document.getElementById("5").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("6").addEventListener("click", function () {
+tecla_6.addEventListener("click", function () {
+    tecla_6.style="border-style:groove";
+    setInterval(function(){
+        tecla_6.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "6";
         cantidad_digitos = cantidad_digitos + 1;
@@ -463,7 +550,11 @@ document.getElementById("6").addEventListener("click", function () {
     }    
 });
 
-document.getElementById("7").addEventListener("click", function () {
+tecla_7.addEventListener("click", function () {
+    tecla_7.style="border-style:groove";
+    setInterval(function(){
+        tecla_7.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "7";
         cantidad_digitos = cantidad_digitos + 1;
@@ -476,7 +567,11 @@ document.getElementById("7").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("8").addEventListener("click", function () {
+tecla_8.addEventListener("click", function () {
+    tecla_8.style="border-style:groove";
+    setInterval(function(){
+        tecla_8.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "8";
         cantidad_digitos = cantidad_digitos + 1;
@@ -489,7 +584,11 @@ document.getElementById("8").addEventListener("click", function () {
         } 
     }    
 });
-document.getElementById("9").addEventListener("click", function () {
+tecla_9.addEventListener("click", function () {
+    tecla_9.style="border-style:groove";
+    setInterval(function(){
+        tecla_9.style="";
+    },300);
     if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
         document.getElementById("display").innerHTML = "9";
         cantidad_digitos = cantidad_digitos + 1;
