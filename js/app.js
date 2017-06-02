@@ -29,16 +29,6 @@ var tecla_on = document.getElementById('on');
 var tecla_actual = "";
 
 
-// Reducir y ampliar teclas
-
-//tecla_1.addEventListener('click', function(){
-//    tecla_1.style="border-style:groove";
-//    setInterval(function(){
-//        tecla_1.style="";
-//    },300);
-//}); 
-
-
 //Fin efectos tecla       
 function representacion_visor(nro){
     resultado_txt = resultado;
@@ -82,14 +72,16 @@ function representacion_visor(nro){
 //var decimal = parseFloat(text); // decimal = 1234.0987
 function calcular_resultado(){
     op = "";
+    op_ant = cuenta[1];
+    ope_ant = cuenta[2];
     resultado = 0;
     resultado_txt ="";
     es_negativo = false;
     es_decimal = false;
-    //Si la cuenta es = almaceno ultimo_operador y ultimo_operando
+    //Almaceno ultimo_operador y ultimo_operando
     if (cuenta[5] == "" && cuenta[6] == "") {
-        cuenta[5] = cuenta[1];
-        cuenta[6] = parseFloat(cuenta[2]);
+        cuenta[5] = op_ant;
+        cuenta[6] = ope_ant;
     } 
     switch (cuenta[1]){
         case "+":
@@ -120,65 +112,100 @@ function calcular_resultado(){
     
     if (op == "="){
         cuenta[0] = resultado;                           
+        cuenta[1] = "";
+        cuenta[2] = "";
+        cuenta[3] = "";
+        cuenta[4] = "x";
+        cuenta[5] = op_ant;
+        cuenta[6] = ope_ant;
     } else {
         cuenta[0] = resultado;   
         cuenta[1] = op; 
+        cuenta[2] = "";
+        cuenta[3] = "";
+        cuenta[4] = "x";
+        cuenta[5] = "";
+        cuenta[6] = "";
     }
     document.getElementById("display").innerHTML = resultado;
-    if (resultado == parseInt(resultado)) {
-        punto_decimal = false;     
-    } else {
-        punto_decimal = true;     
-    }   
+    
+    punto_decimal = false;
     operadores = 1;
+    cantidad_digitos = 0;
     hay_resultado = true;
     return resultado;
 
     
 }
 //Fin de la funcion
-//document.getElementsByClassName("tecla");.addEventListener("click"){ this.style.width="90%";
    
-//     this.background = "red";
-// };
 tecla_mas.addEventListener("click", function () {
+    resultado_aux = 0;
+    op = "";
     tecla_mas.style="border-style:groove";
     setInterval(function(){
         tecla_mas.style="";
     },300);
+    
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
+        punto_decimal = false;
+        //No hay repeticion de operación con signo de +
         cuenta[5] = "";
         cuenta[6] = "";
         s = document.getElementById("display").innerHTML;
+        //Primera entrada
         if (cuenta[0] == ""){
             cuenta[0] = s;
             cuenta[1] = "+";
             document.getElementById("display").innerHTML = "0";
         } else { 
-            if (cuenta[2] == "" && cuenta[4] == "") {
-                cuenta[2] = s;
+            if (cuenta[1] != "" && cuenta[2] == "" && cuenta[3] == "") {
+                switch (cuenta[1]){
+                    case "+":
+                        resultado_aux = parseFloat(cuenta[0]) +  parseFloat(s);
+                        break;
+                    case "-":
+                        resultado_aux = parseFloat(cuenta[0]) -  parseFloat(s);
+                        break;
+                    case "*":
+                        resultado_aux = parseFloat(cuenta[0]) *  parseFloat(s);
+                        break;
+                    case "/":
+                        resultado_aux = parseFloat(cuenta[0]) /  parseFloat(s);
+                        break;   
+                }
+                
+                cuenta[0] = resultado_aux;   
                 cuenta[1] = "+"; 
-                cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();    
+                cuenta[2] = "";
+                cuenta[3] = "";
+                cuenta[4] = "x";
+                cuenta[5] = "";
+                cuenta[6] = "";
+               
+                document.getElementById("display").innerHTML = resultado_aux;    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
                 ultimo_operando = 0;
             } else {
-                if (cuenta[0] != "" && cuenta[1] == "" && cuenta[4] == "x"){
-                    //Resultado de signo igual!
-                    document.getElementById("display").innerHTML = "0";
-                    cuenta[4] == ""
-                    cuenta[0] = s;
-                    cuenta[1] = "+";
-                } else {
-                document.getElementById("display").innerHTML = "0";
-                cuenta[4] == ""
+                    resultado_aux = cuenta[0];
+                    cuenta[0] = resultado_aux;   
+                    cuenta[1] = "+"; 
+                    cuenta[2] = "";
+                    cuenta[3] = "";
+                    cuenta[4] = "";
+                    cuenta[5] = "";
+                    cuenta[6] = "";  
+                    document.getElementById("display").innerHTML = "0";    
+                    operadores = 1;
+                    hay_resultado = true;
+                    ultimo_operador = 0;
+                    ultimo_operando = 0;
                 }
-            }
+            
         }
-        
     }
       
 });
@@ -187,79 +214,134 @@ tecla_menos.addEventListener("click", function () {
     setInterval(function(){
         tecla_menos.style="";
     },300);
+    
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
+        punto_decimal = false;
+        //No hay repeticion de operación con signo de +
         cuenta[5] = "";
         cuenta[6] = "";
         s = document.getElementById("display").innerHTML;
+        //Primera entrada
         if (cuenta[0] == ""){
             cuenta[0] = s;
             cuenta[1] = "-";
             document.getElementById("display").innerHTML = "0";
         } else { 
-            if (cuenta[2] == "" && cuenta[4] == "") {
-                cuenta[2] = s;
+            if (cuenta[1] != "" && cuenta[2] == "" && cuenta[3] == "") {
+                switch (cuenta[1]){
+                    case "+":
+                        resultado_aux = parseFloat(cuenta[0]) +  parseFloat(s);
+                        break;
+                    case "-":
+                        resultado_aux = parseFloat(cuenta[0]) -  parseFloat(s);
+                        break;
+                    case "*":
+                        resultado_aux = parseFloat(cuenta[0]) *  parseFloat(s);
+                        break;
+                    case "/":
+                        resultado_aux = parseFloat(cuenta[0]) /  parseFloat(s);
+                        break;   
+                }
+                
+                cuenta[0] = resultado_aux;   
                 cuenta[1] = "-"; 
-                cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();    
+                cuenta[2] = "";
+                cuenta[3] = "";
+                cuenta[4] = "x";
+                cuenta[5] = "";
+                cuenta[6] = "";
+               
+                document.getElementById("display").innerHTML = resultado_aux;    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
                 ultimo_operando = 0;
             } else {
-                if (cuenta[0] != "" && cuenta[1] == "" && cuenta[4] == "x"){
-                    //Resultado de signo igual!
-                    document.getElementById("display").innerHTML = "0";
-                    cuenta[4] == ""
-                    cuenta[0] = s;
-                    cuenta[1] = "-";
-                } else {
-                document.getElementById("display").innerHTML = "0";
-                cuenta[4] == ""
+                    resultado_aux = cuenta[0];
+                    cuenta[0] = resultado_aux;   
+                    cuenta[1] = "-"; 
+                    cuenta[2] = "";
+                    cuenta[3] = "";
+                    cuenta[4] = "";
+                    cuenta[5] = "";
+                    cuenta[6] = "";  
+                    document.getElementById("display").innerHTML = "0";    
+                    operadores = 1;
+                    hay_resultado = true;
+                    ultimo_operador = 0;
+                    ultimo_operando = 0;
                 }
-            }
+            
         }
-        
     }
 });
+
 tecla_por.addEventListener("click", function () {
     tecla_por.style="border-style:groove";
     setInterval(function(){
         tecla_por.style="";
     },300);
+    
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
+        punto_decimal = false;
+        //No hay repeticion de operación con signo de +
         cuenta[5] = "";
         cuenta[6] = "";
         s = document.getElementById("display").innerHTML;
+        //Primera entrada
         if (cuenta[0] == ""){
             cuenta[0] = s;
             cuenta[1] = "*";
             document.getElementById("display").innerHTML = "0";
         } else { 
-            if (cuenta[2] == "" && cuenta[4] == "") {
-                cuenta[2] = s;
-                cuenta[1] = "*"; 
-                cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();   
+            if (cuenta[1] != "" && cuenta[2] == "" && cuenta[3] == "") {
+                switch (cuenta[1]){
+                    case "+":
+                        resultado_aux = parseFloat(cuenta[0]) +  parseFloat(s);
+                        break;
+                    case "-":
+                        resultado_aux = parseFloat(cuenta[0]) -  parseFloat(s);
+                        break;
+                    case "*":
+                        resultado_aux = parseFloat(cuenta[0]) *  parseFloat(s);
+                        break;
+                    case "/":
+                        resultado_aux = parseFloat(cuenta[0]) /  parseFloat(s);
+                        break;   
+                }
+                
+                cuenta[0] = resultado_aux;   
+                cuenta[1] = "+"; 
+                cuenta[2] = "";
+                cuenta[3] = "";
+                cuenta[4] = "*";
+                cuenta[5] = "";
+                cuenta[6] = "";
+               
+                document.getElementById("display").innerHTML = resultado_aux;    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
                 ultimo_operando = 0;
             } else {
-                if (cuenta[0] != "" && cuenta[1] == "" && cuenta[4] == "x"){
-                    //Resultado de signo igual!
-                    document.getElementById("display").innerHTML = "0";
-                    cuenta[4] == ""
-                    cuenta[0] = s;
-                    cuenta[1] = "*";
-                } else {
-                document.getElementById("display").innerHTML = "0";
-                cuenta[4] == ""
+                    resultado_aux = cuenta[0];
+                    cuenta[0] = resultado_aux;   
+                    cuenta[1] = "*"; 
+                    cuenta[2] = "";
+                    cuenta[3] = "";
+                    cuenta[4] = "";
+                    cuenta[5] = "";
+                    cuenta[6] = "";  
+                    document.getElementById("display").innerHTML = "0";    
+                    operadores = 1;
+                    hay_resultado = true;
+                    ultimo_operador = 0;
+                    ultimo_operando = 0;
                 }
-            }
+            
         }
-        
     }
 });
 tecla_dividido.addEventListener("click", function () {
@@ -267,48 +349,81 @@ tecla_dividido.addEventListener("click", function () {
     setInterval(function(){
         tecla_dividido.style="";
     },300);
+    
     if (document.getElementById("display").innerHTML != "0"){
         cantidad_digitos = 0;
+        punto_decimal = false;    
+        //No hay repeticion de operación con signo de +
         cuenta[5] = "";
         cuenta[6] = "";
         s = document.getElementById("display").innerHTML;
+        //Primera entrada
         if (cuenta[0] == ""){
             cuenta[0] = s;
-            cuenta[1] = "/";
+            cuenta[1] = "+";
             document.getElementById("display").innerHTML = "0";
         } else { 
-            if (cuenta[2] == "" && cuenta[4] == "") {
-                cuenta[2] = s;
+            if (cuenta[1] != "" && cuenta[2] == "" && cuenta[3] == "") {
+                switch (cuenta[1]){
+                    case "+":
+                        resultado_aux = parseFloat(cuenta[0]) +  parseFloat(s);
+                        break;
+                    case "-":
+                        resultado_aux = parseFloat(cuenta[0]) -  parseFloat(s);
+                        break;
+                    case "*":
+                        resultado_aux = parseFloat(cuenta[0]) *  parseFloat(s);
+                        break;
+                    case "/":
+                        resultado_aux = parseFloat(cuenta[0]) /  parseFloat(s);
+                        break;   
+                }
+                
+                cuenta[0] = resultado_aux;   
                 cuenta[1] = "/"; 
-                cuenta[3] = "=";
-                document.getElementById("display").innerHTML = calcular_resultado();  
+                cuenta[2] = "";
+                cuenta[3] = "";
+                cuenta[4] = "x";
+                cuenta[5] = "";
+                cuenta[6] = "";
+               
+                document.getElementById("display").innerHTML = resultado_aux;    
                 operadores = 1;
                 hay_resultado = true;
                 ultimo_operador = 0;
                 ultimo_operando = 0;
             } else {
-                if (cuenta[0] != "" && cuenta[1] == "" && cuenta[4] == "x"){
-                    //Resultado de signo igual!
-                    document.getElementById("display").innerHTML = "0";
-                    cuenta[4] == ""
-                    cuenta[0] = s;
-                    cuenta[1] = "/";
-                } else {
-                document.getElementById("display").innerHTML = "0";
-                cuenta[4] == ""
+                    resultado_aux = cuenta[0];
+                    cuenta[0] = resultado_aux;   
+                    cuenta[1] = "/"; 
+                    cuenta[2] = "";
+                    cuenta[3] = "";
+                    cuenta[4] = "";
+                    cuenta[5] = "";
+                    cuenta[6] = "";  
+                    document.getElementById("display").innerHTML = "0";    
+                    operadores = 1;
+                    hay_resultado = true;
+                    ultimo_operador = 0;
+                    ultimo_operando = 0;
                 }
-            }
+            
         }
-        
     }
 });
 
 tecla_igual.addEventListener("click", function () { 
+    op_aux = "";
+    ope_aux = 0;
+    
     tecla_igual.style="border-style:groove";
     setInterval(function(){
         tecla_igual.style="";
     },300);
+    
     if (document.getElementById("display").innerHTML != "0") {
+        punto_decimal = false;
+        cantidad_digitos = 0;
         n = document.getElementById("display").innerHTML;
         resultado_txt = "";
         if (cuenta[0] != "" && cuenta[1] != "") {
@@ -344,10 +459,13 @@ tecla_igual.addEventListener("click", function () {
                             hay_resultado = true;
                         }    
                         break;    
+                    
                 } 
 
         } else {  
             if (cuenta[5] != "" && cuenta[6] != "") {
+                op_aux = cuenta[5];
+                ope_aux = cuenta[6];
                 switch (cuenta[5]) {
                     case "+":    
                         cuenta[0] = parseFloat(cuenta[0]) + parseFloat(cuenta[6]);    
@@ -366,21 +484,22 @@ tecla_igual.addEventListener("click", function () {
                 }
                 resultado = parseFloat(cuenta[0]);
                 resultado = representacion_visor(resultado);
+                cuenta[0] = resultado;
                 cuenta[1] = "";
-                cuenta[2] = "=";
-                cuenta[3] = "=";
+                cuenta[2] = "";
+                cuenta[3] = "";
                 cuenta[4] = "x";
+                cuenta[5] = op_aux;
+                cuenta[6] = ope_aux;
                 document.getElementById("display").innerHTML = resultado;
-                if (resultado == parseInt(resultado)) {
-                    punto_decimal = false;     
-                } else {
-                    punto_decimal = true;     
-                }       
+                
                 operadores = 1;
                 hay_resultado = true;
             }
              
         }        
+        
+        
     }
 });
 
@@ -389,8 +508,9 @@ tecla_sign.addEventListener("click", function () {
     setInterval(function(){
         tecla_sign.style="";
     },300);
+    
     sin_signo = "";    
-    if (document.getElementById("display").innerHTML != "0"){
+    if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
         if (document.getElementById("display").innerHTML[0] != "-" ){
             document.getElementById("display").innerHTML = "-" + document.getElementById("display").innerHTML; 
         } else {
@@ -405,11 +525,17 @@ tecla_punto.addEventListener("click", function () {
     tecla_punto.style="border-style:groove";
     setInterval(function(){
         tecla_punto.style="";
-    },300);    
-    if (!punto_decimal){
-        punto_decimal = true;
-        document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "."; 
+    },300);  
+    
+    if (cantidad_digitos > 0 && cantidad_digitos < 8) {
+        if (punto_decimal == false) {
+            punto_decimal = true;
+            document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "."; 
+        } else {
+            punto_decimal = false;
+        }
     }
+    
 });
 
 tecla_on.addEventListener("click", function () {
@@ -417,6 +543,7 @@ tecla_on.addEventListener("click", function () {
     setInterval(function(){
         tecla_on.style="";
     },300);
+    
     document.getElementById("display").innerHTML = "0";
     cantidad_digitos = 0;
     punto_decimal = false;
@@ -434,46 +561,49 @@ tecla_on.addEventListener("click", function () {
 });
 
 tecla_0.addEventListener("click", function () {
-    tecla_0.style="border-style:groove";
+   
+    tecla_0.style = "border-style:groove";
     setInterval(function(){
-        tecla_0.style="";
+        tecla_0.style = "";
     },300);
-    if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+    if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
         document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "0";
         cuenta[4] = "";
         cantidad_digitos = cantidad_digitos + 1;
+        
     }    
 });
+
 tecla_1.addEventListener("click", function () {
     tecla_1.style="border-style:groove";
     setInterval(function(){
         tecla_1.style="";
     },300);
     
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "1";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "1";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
         } 
-        
-    }    
+    }
+            
 });
 tecla_2.addEventListener("click", function () {
     tecla_2.style="border-style:groove";
     setInterval(function(){
         tecla_2.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "2";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "2";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -485,13 +615,13 @@ tecla_3.addEventListener("click", function () {
     setInterval(function(){
         tecla_3.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "3";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
        
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "3";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -503,12 +633,12 @@ tecla_4.addEventListener("click", function () {
     setInterval(function(){
         tecla_4.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "4";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "4";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -520,12 +650,12 @@ tecla_5.addEventListener("click", function () {
     setInterval(function(){
         tecla_5.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "5";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "5";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -537,12 +667,12 @@ tecla_6.addEventListener("click", function () {
     setInterval(function(){
         tecla_6.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "6";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "6";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -555,12 +685,12 @@ tecla_7.addEventListener("click", function () {
     setInterval(function(){
         tecla_7.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "7";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "7";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -572,12 +702,12 @@ tecla_8.addEventListener("click", function () {
     setInterval(function(){
         tecla_8.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "8";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "8";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
@@ -589,12 +719,12 @@ tecla_9.addEventListener("click", function () {
     setInterval(function(){
         tecla_9.style="";
     },300);
-    if (document.getElementById("display").innerHTML == "0" && cantidad_digitos == 0) {
+    if (document.getElementById("display").innerHTML == "0") {
         document.getElementById("display").innerHTML = "9";
         cantidad_digitos = cantidad_digitos + 1;
         cuenta[4] = "";
     } else {
-        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos < 8) {
+        if (document.getElementById("display").innerHTML != "0" && cantidad_digitos > 0 && cantidad_digitos < 8) {
             document.getElementById("display").innerHTML = document.getElementById("display").innerHTML + "9";
             cantidad_digitos = cantidad_digitos + 1;
             cuenta[4] = "";
